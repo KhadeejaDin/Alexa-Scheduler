@@ -73,7 +73,7 @@ def get_events():
     Creates a Google Calendar API service object and outputs a list of the next
     10 events on the user's calendar.
     """
-    str = {'Jane, Khadeeja, Neeru'}
+    mylist = ['Jane Doe', 'khadeeja din', 'Neeru Bhagirath']
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
@@ -98,18 +98,23 @@ def get_events():
         mystringbusy = name
         mystringfree = name
         activity = event['summary']
-        mystringbusy += ' is busy right now. They are currently at '
+        mystringbusy += ' is busy right now. They are currently '
         mystringbusy += activity
         mystringfree += ' will be free later'
         mystringsoon = name
         mystringsoon += ' will be busy soon'
         if mydate <= end and mydate >= start:
         	total_events.append(mystringbusy)
+        	mylist.remove(name)
         else:
         	if start <= new_time:
         		total_events.append(mystringsoon)
+        		mylist.remove(name)
     if not total_events:
     	total_events.append('Congrats, everyone in your contacts is free right now')
+    else:
+    	total_events.append(mylist)
+    	total_events.append('are currently free')
     return total_events
 
 
